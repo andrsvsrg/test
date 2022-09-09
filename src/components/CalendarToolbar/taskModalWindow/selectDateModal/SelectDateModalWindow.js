@@ -2,13 +2,15 @@ import './selectDateModalWindow.css'
 
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import cn from 'classnames'
-import { Months } from '../../../../constants/date'
+
 import { Button } from '../../../UI/Button'
+import MonthsGrid from './MonthsGrid'
+import YearsChooser from './YearsChooser'
+
 
 export default function SelectDateModalWindow({ isOpenModalSelectDate, onClose, selectedDate, setSelectedDate }) {
   const [yearsList, setYearsList] = useState(() => [selectedDate.year - 1, selectedDate.year, selectedDate.year + 1])
-  const [selectedMonth, setSelectedMonth] = useState(selectedDate.month) // (0-11)
+  const [selectedMonth, setSelectedMonth] = useState(selectedDate.month)
 
   useEffect(() => {
     setYearsList([selectedDate.year - 1, selectedDate.year, selectedDate.year + 1])
@@ -32,54 +34,6 @@ export default function SelectDateModalWindow({ isOpenModalSelectDate, onClose, 
         Select this date
       </Button>
     </Modal>
-  )
-}
-
-function MonthsGrid({ selectedMonth, setSelectedMonth }) {
-  return (
-    <div className="modal-months">
-      {Months.map((month, index) => {
-        const className = cn('modal-oneMonth', { 'modal-selected-monthYear': selectedMonth === index })
-
-        return (
-          <div onClick={() => setSelectedMonth(index)} key={month} className={className}>
-            {month}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function YearsChooser({ setYearsList, yearsList }) {
-  const yearsClasses = (index) => 'modal-oneYear ' + (index === 1 ? 'modal-selected-monthYear' : '')
-
-  function minusOneYear() {
-    setYearsList(yearsList.map((year) => year - 1))
-  }
-
-  function plusOneYear() {
-    setYearsList(yearsList.map((year) => year + 1))
-  }
-
-  return (
-    <div className="modal-years">
-      <Button className="modal-buttons-year" onClick={minusOneYear}>
-        {'<'}
-      </Button>
-
-      {yearsList.map((year, i) => {
-        return (
-          <div key={year} className={yearsClasses(i)}>
-            {year}
-          </div>
-        )
-      })}
-
-      <Button className="modal-buttons-year" onClick={plusOneYear}>
-        {'>'}
-      </Button>
-    </div>
   )
 }
 

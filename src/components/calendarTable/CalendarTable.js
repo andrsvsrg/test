@@ -2,8 +2,8 @@ import './calendarTable.css'
 
 import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
-import { TasksList } from './task/Task'
-import * as DateUtils from '../utils/date'
+import { TasksList } from './tasksList/Task'
+import * as DateUtils from '../../utils/date'
 
 const CalendarTable = ({ tasks, selectedDate, onTaskEdit }) => {
   const [days, setDays] = useState(() => createAllDaysForCurrWindow(selectedDate.year, selectedDate.month))
@@ -12,28 +12,22 @@ const CalendarTable = ({ tasks, selectedDate, onTaskEdit }) => {
     setDays(createAllDaysForCurrWindow(selectedDate.year, selectedDate.month))
   }, [selectedDate])
 
-  const classNamesDataItem = (currentDay) => {
-    return 'calendar-dataItem ' + (currentDay.isToday ? 'today ' : '')
-  }
-
-  const classNamesItemHeader = (currentDay) => {
-    return 'item-day-dayOfWeek ' + (!currentDay.isCurrentMonth ? 'not-this-month' : '')
-  }
-
-  // TODO: replace classNamesDataItem with cn
-
   return (
     <div className="calendar-table">
-      {days.map((day) => (
-        <div className={classNamesDataItem(day)} key={day.id}>
-          <div className={classNamesItemHeader(day)}>
+      {days.map((day) => {
+        const dataItemClasses = cn('calendar-dataItem', {'today': day.isToday})
+        const itemTitleClasses = cn('item-day-dayOfWeek', {'not-this-month': !day.isCurrentMonth})
+
+        return (
+        <div className={dataItemClasses} key={day.id}>
+          <div className={itemTitleClasses}>
             <div className="calendar-day-of-month">{day.day}</div>
             <div className="calendar-day-of-week">{day.dayOfWeek}</div>
           </div>
 
           {tasks[day.id] && <TasksList onTaskEdit={onTaskEdit} tasks={tasks[day.id]} />}
         </div>
-      ))}
+      )})}
     </div>
   )
 }

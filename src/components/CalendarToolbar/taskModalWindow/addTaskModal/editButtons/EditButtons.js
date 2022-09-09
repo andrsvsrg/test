@@ -2,10 +2,10 @@ import React from 'react'
 import { Button } from '../../../../UI/Button'
 import trashBag from '../../../../../icon/trash.svg'
 
-const EditButtons = ({ updateThisTask, deleteThisTask }) => {
+const EditButtons = ({ disabled, updateThisTask, deleteThisTask }) => {
   return (
     <>
-      <Button className="addTask-button" onClick={updateThisTask}>
+      <Button disabled={disabled} className="addTask-button" onClick={updateThisTask}>
         Save
       </Button>
       <Button className="addTask-button color-delete" onClick={deleteThisTask}>

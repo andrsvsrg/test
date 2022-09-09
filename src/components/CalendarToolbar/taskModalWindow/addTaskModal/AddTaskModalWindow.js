@@ -3,12 +3,15 @@ import './addTaskModalWindow.css'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
 import Modal from 'react-modal'
+
 import { Button } from '../../../UI/Button'
 import { TextField } from '@mui/material'
-import { v4 as uuid } from 'uuid'
-import { getCurrentDate, getCurrentTime, getFullTime, isValidDate } from '../../../utils/date'
-import cross from '../../../../icon/cross.svg'
 import EditButtons from './editButtons/EditButtons'
+import CreatedAt from './CreatedAt'
+
+import { v4 as uuid } from 'uuid'
+import { getCurrentDate, getCurrentTime, getFullTime} from '../../../../utils/date'
+import cross from '../../../../icon/cross.svg'
 
 const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) => {
   const [titleInput, setTitleInput] = useState(task?.title || '')
@@ -17,7 +20,7 @@ const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) 
   const [timeInput, setTimeInput] = useState(() => task?.beginTime || getCurrentTime(moment()))
 
   const isDisabledButton = useMemo(() => {
-    return !(titleInput.trim() && dateInput.trim() && isValidDate(dateInput))
+    return !(titleInput.trim() && dateInput.trim() )  // && isValidDate(dateInput)
   }, [titleInput, dateInput])
 
   function deleteThisTask() {
@@ -50,7 +53,7 @@ const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) 
     setTitleInput(e.target.value)
   }
 
-  function dateHandler(e) {
+  function onDateChange(e) {
     setDateInput(e.target.value)
   }
 
@@ -96,7 +99,7 @@ const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) 
           variant="standard"
           label="Date"
           sx={{ mt: 2, mb: 1, width: '16ch' }}
-          onChange={dateHandler}
+          onChange={onDateChange}
           helperText="(YYYY.MM.DD)"
           value={dateInput}
         />
@@ -111,7 +114,7 @@ const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) 
         />
       </div>
 
-      {task && <EditButtons updateThisTask={updateThisTask} deleteThisTask={deleteThisTask} />}
+      {task && <EditButtons disabled={isDisabledButton} updateThisTask={updateThisTask} deleteThisTask={deleteThisTask} />}
 
       {!task && (
         <Button disabled={isDisabledButton} className="addTask-button" onClick={addNewTask}>
@@ -124,26 +127,14 @@ const AddTaskModalWindow = ({ updateTask, deleteTask, addTask, onClose, task }) 
 
 export default AddTaskModalWindow
 
-function CreatedAt({ task }) {
-  if (!task) {
-    return
-  }
 
-  if (task.editedDate) {
-    return <div>Updated at: {task.editedDate}</div>
-  }
-
-  if (task.createdDate) {
-    return <div>Created at: {task.createdDate}</div>
-  }
-}
 
 function createNewTask(titleInput, descriptionInput, dateInput, timeInput) {
   const taskDateKey = `${dateInput.slice(8, 10)}${dateInput.slice(5, 7)}${dateInput.slice(0, 4)}`
   return {
     id: uuid(),
     taskDateKey,
-    title: titleInput, // title limit 15 symbols
+    title: titleInput,
     description: descriptionInput,
     createdDate: getFullTime(moment()),
     editedDate: '',
@@ -152,12 +143,13 @@ function createNewTask(titleInput, descriptionInput, dateInput, timeInput) {
   }
 }
 
+
 const addTaskModalStyle = {
   content: {
     top: '40%',
     left: '50%',
     width: '350px',
-    height: '420px',
+    height: '440px',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
   },

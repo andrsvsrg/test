@@ -1,13 +1,12 @@
-import './calendarNavigation.css'
+import './calendarToolbar.css'
 
 import React, { useState } from 'react'
 
-import { Button } from '../UI/Button'
 import SelectDateModalWindow from './taskModalWindow/selectDateModal/SelectDateModalWindow'
-import calendarSVG from '../../icon/calendar.svg'
-import { Months } from '../../constants/date'
+import CreateTaskButton from './CreateTaskButton'
+import CalendarNavigator from './calendarNavigation'
 
-export default function CalendarNavigation({ selectedDate, setSelectedDate, setIsOpenModalTask }) {
+export default function CalendarToolbar({ selectedDate, setSelectedDate, setIsOpenModalTask }) {
   const [isOpenModalSelectDate, setIsOpenModalSelectDate] = useState(false)
 
   const openCreateTaskModal = () => {
@@ -40,48 +39,6 @@ export default function CalendarNavigation({ selectedDate, setSelectedDate, setI
   )
 }
 
-function CreateTaskButton({ onClick }) {
-  return (
-    <Button onClick={onClick} className="create-task-button">
-      +
-    </Button>
-  )
-}
 
-function CalendarNavigator({ selectedDate, setSelectedDate, onCalendarClick }) {
-  function onPreviousMonthClick() {
-    if (selectedDate.month === 0) {
-      setSelectedDate({ month: 11, year: selectedDate.year - 1 })
-    } else {
-      setSelectedDate({ month: selectedDate.month - 1, year: selectedDate.year })
-    }
-  }
 
-  function onNextMonth() {
-    if (selectedDate.month === 11) {
-      setSelectedDate({ month: 0, year: selectedDate.year + 1 })
-    } else {
-      setSelectedDate({ month: selectedDate.month + 1, year: selectedDate.year })
-    }
-  }
 
-  const title = `${Months[selectedDate.month]} ${selectedDate.year}`
-
-  return (
-    <div className="navigation-select-date">
-      <Button onClick={onPreviousMonthClick} className="button-navigation-change-month">
-        {'<'}
-      </Button>
-
-      <span className="navigation-date-span">{title}</span>
-
-      <Button onClick={onNextMonth} className="button-navigation-change-month">
-        {'>'}
-      </Button>
-
-      <Button onClick={onCalendarClick} className="button-select-month">
-        <img src={calendarSVG} alt="calendar" />
-      </Button>
-    </div>
-  )
-}

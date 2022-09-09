@@ -2,16 +2,24 @@ import './App.css'
 
 import React, { useState, useCallback } from 'react'
 import ReactModal from 'react-modal'
+import { storage } from './utils/storage'
+
 import CalendarToolbar from './components/CalendarToolbar'
 import CalendarTable from './components/calendarTable/CalendarTable'
-import { getCurrentMonth, getCurrentYear } from './components/utils/date'
 import AddTaskModalWindow from './components/CalendarToolbar/taskModalWindow/addTaskModal/AddTaskModalWindow'
-import { storage } from './components/utils/storage'
+
+import { getCurrentMonth, getCurrentYear } from './utils/date'
 
 const API = {
   async saveTask(task) {
     return storage.addTask(task)
   },
+  async deleteTask(task) {
+    return storage.deleteTask(task)
+  },
+  async updateTask(task, changes) {
+    return storage.updateTask(task, changes)
+  }
 }
 
 function App() {
@@ -32,45 +40,22 @@ function App() {
 
   const addTask = useCallback(
     (task) => {
-      API.saveTask(task).then((tasks) => setTasks(tasks))
+      API.saveTask(task).then((newTasks) => setTasks(newTasks))
     },
-    [tasks],
+    [],
   )
 
-  function deleteTask(task) {
-    const newSelectDayToDo = tasks[task.taskDateKey].filter(({ id }) => {
-      return id !== task.id
-    })
-    setTasks({ ...tasks, [task.taskDateKey]: newSelectDayToDo })
-  }
-  function updateTask(task, changes) {
-    if (task.taskDate === changes.taskDate) {
-      const newSelectedDayToDo = tasks[task.taskDateKey].map((dayTask) => {
-        return dayTask.id === task.id ? { ...dayTask, ...changes } : task
-      })
+  const deleteTask = useCallback(
+    (task) => {
+    API.deleteTask(task).then((newTasks) => setTasks(newTasks))
+  },
+    [])
 
-      setTasks({ ...tasks, [task.taskDateKey]: newSelectedDayToDo })
-
-      return
-    }
-
-    const newTask = { ...task, ...changes }
-
-    newTask.taskDateKey = `${newTask.taskDate.slice(8, 10)}${newTask.taskDate.slice(5, 7)}${newTask.taskDate.slice(
-      0,
-      4,
-    )}`
-
-    const selectedDayTasks = tasks[newTask.taskDateKey]
-    const newDayTask = selectedDayTasks ? [...selectedDayTasks, newTask] : [newTask] // add to new day task
-
-    const newSelectDayToDo = tasks[task.taskDateKey].filter(({ id }) => {
-      // delete from old day task
-      return id !== task.id
-    })
-
-    setTasks({ ...tasks, [task.taskDateKey]: newSelectDayToDo, [newTask.taskDateKey]: newDayTask })
-  }
+  const updateTask = useCallback(
+    (task, changes) => {
+      API.updateTask(task, changes).then((newTasks) => setTasks(newTasks))
+    },
+    [])
 
   const onTaskEdit = useCallback((task) => {
     setTaskToEdit(task)
@@ -81,6 +66,8 @@ function App() {
     setIsOpenModalTask(false)
     setTaskToEdit(null)
   }, [])
+
+
 
   return (
     <div className="App" ref={onRef}>

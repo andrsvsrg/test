@@ -6,4 +6,7 @@
   padding: 1px 3px;
   font-size: 12px;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

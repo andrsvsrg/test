@@ -7,7 +7,7 @@ export const TasksList = ({ tasks, onTaskEdit }) => {
     <>
       {tasks.map((task) => (
         <div onClick={() => onTaskEdit(task)} key={task.id} className="task-item">
-          {task.title}
+         <span>{task.title}</span>
         </div>
       ))}
     </>

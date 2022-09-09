@@ -6,19 +6,9 @@ function startWeekFromMonday() {
 
 startWeekFromMonday()
 
-export const monthNamesArr = moment()._locale._months
-
-export function isSelectedDay(dayObj, selectedDay) {
-  return dayObj.id === selectedDay
-}
-
 export function getDayOfWeek(momentDay) {
   const weekdaysMin = moment()._locale._weekdaysMin
   return weekdaysMin[momentDay.day()]
-}
-
-export function getTodayDayId() {
-  return moment().format('DDMMYYYY')
 }
 
 export function getCurrentYear() {
@@ -61,7 +51,7 @@ export function setCurrentMomentDate(year, month, day = 1) {
   return moment().set({ year: year, month: month, date: day })
 }
 
-export function isValidDate(dateString) {
+export function isValidDate(dateString) {    // не работает корректно
   return moment(dateString).isValid()
 }
 
