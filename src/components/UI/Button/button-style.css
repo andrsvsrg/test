@@ -1,0 +1,9 @@
+.myButton-default-style {
+  text-align: center;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 50%;
+  cursor: default;
+}

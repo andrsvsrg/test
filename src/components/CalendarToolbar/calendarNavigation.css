@@ -1,0 +1,68 @@
+.calendar-navigation {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation-date-span {
+  min-width: 150px;
+  text-align: center;
+}
+
+.create-task-button {
+  background-color: #fcd91d;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 25px;
+  color: Black;
+  box-shadow: 3px 3px 3px 1px rgba(239, 153, 101, 0.27);
+}
+
+.navigation-select-date {
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-select-date span {
+  font-size: 22px;
+  margin: auto;
+  padding: 5px 15px;
+}
+
+.button-navigation-change-month, .button-select-month {
+  background-color: inherit;
+  color: #000000;
+  border: none;
+  font-size: 22px;
+}
+
+.button-select-month {
+  padding: 2px 10px;
+}
+
+/*.button-navigation-change-month {*/
+/*    background-color: inherit;*/
+/*    color: #fff;*/
+/*    cursor: pointer;*/
+/*    border:none;*/
+/*    font-size: 22px;*/
+/*    height: 100%;*/
+/*    margin: auto;*/
+/*}*/
+/*.navigation-select-date {*/
+/*}*/
+/*.button-select-month {*/
+/*    background-color: inherit;*/
+/*    height: 100%;*/
+/*    border:none;*/
+/*}*/
+/*.button-select-month img {*/
+/*    margin: auto;*/
+/*}*/
+
+/*.navigation-select-date span{*/
+/*    font-size: 22px;*/
+/*    padding: 5px 12px;*/
+/*}*/

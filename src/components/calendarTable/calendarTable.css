@@ -1,0 +1,33 @@
+.calendar-table {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  color: white;
+  grid-gap: 1px;
+  margin: auto;
+}
+
+.calendar-dataItem {
+  padding: 3px;
+  color: white;
+  background-color: #0772A1;
+  min-width: 90px;
+  min-height: 90px;
+  font-size: 11px;
+}
+
+.item-day-dayOfWeek {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+.today {
+  border: 3px solid #fc9b1d;
+  color: white;
+}
+
+.not-this-month {
+  opacity: 30%;
+}
